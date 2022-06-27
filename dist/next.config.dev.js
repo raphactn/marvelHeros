@@ -3,8 +3,8 @@
 /** @type {import('next').NextConfig} */
 var nextConfig = {
   reactStrictMode: true,
-  images: {
-    domains: ['localhost']
+  eslint: {
+    ignoreDuringBuilds: true
   }
 };
 module.exports = nextConfig;
