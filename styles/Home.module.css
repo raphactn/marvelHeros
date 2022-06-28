@@ -265,6 +265,17 @@
   border-radius: 5px;
 }
 
+
+@keyframes loading {
+  from {
+    transform: scale(1.2);
+  }
+
+  to {
+    transform: scale(1.0);
+  }
+}
+
 @media (max-width: 900px) {
 
   .pageHero,
@@ -318,25 +329,5 @@
 
   .itensHeroComics {
     display: block;
-  }
-}
-
-@media (max-width: 1600px) {
-
-  .pageHero,
-  .homePage {
-    padding: 0 10rem 0 10rem;
-  }
-
-}
-
-
-@keyframes loading {
-  from {
-    transform: scale(1.2);
-  }
-
-  to {
-    transform: scale(1.0);
   }
 }
