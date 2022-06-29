@@ -128,7 +128,13 @@
   border: none;
 }
 
-.pageHero input:focus,
+.pageHero input:focus {
+  outline: none;
+  padding: 10px 70px;
+  transition: all 250ms ease-in-out;
+
+}
+
 .search input:focus {
   outline: none;
 }
@@ -214,6 +220,11 @@
   margin-top: 5rem;
 }
 
+.logo {
+  margin-top: 2.5rem;
+  width: 250px;
+}
+
 .pageHero input {
   top: 2.5rem;
   margin-left: 10rem;
@@ -277,6 +288,12 @@
 }
 
 @media (max-width: 900px) {
+  .logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3rem;
+  }
 
   .pageHero,
   .homePage {

@@ -40,10 +40,9 @@ const SelectCharacter = (props) => {
         <>
             <div className={styles.pageHero}>
                 <Link href={'/'}>
-                    <Image
+                    <img
+                        className={styles.logo}
                         src={'/logo_menor.svg'}
-                        width={230}
-                        height={100}
                         alt={'Logo Marvel'}
                     />
                 </Link>
