@@ -1,12 +1,11 @@
 import styles from '../../styles/Home.module.css'
-import axios from "axios";
-import md5 from "md5";
 import Link from "next/link";
 import Image from 'next/image'
 import { useRouter } from "next/router";
 import Loading from "../Loading/index";
 import CardHeros from '../Card';
 import { useEffect, useState } from "react";
+import api from '../../pages/api/marvel';
 
 const SelectCharacter = (props) => {
     const [dataComics, setDataComics] = useState([])
@@ -20,19 +19,12 @@ const SelectCharacter = (props) => {
     const comics = query.comics;
     const movies = query.movies;
 
-    const privateKey = 'a8165f58f2cdedf84d7537af8ba063dd057e7808'
-    const publicKey = 'd6caa04a415e01e2641df1a2d5079872'
-
-    const time = Number(new Date());
-
-    const hash = md5(time + privateKey + publicKey)
-
     useEffect(() => {
         setTimeout(() => {
-            axios.get(`http://gateway.marvel.com/v1/public/characters/${id}/comics?orderBy=onsaleDate&limit=10&ts=${time}&apikey=${publicKey}&hash=${hash}`)
-                .then(response => setDataComics(response.data.data.results))
-                .catch(err => console.log(err))
-        }, 1000)
+            api.get(`/characters/${id}/comics?orderBy=onsaleDate&limit=10`)
+            .then(response => setDataComics(response.data.data.results))
+            .catch(err => console.log(err))
+        },1000)
     }, [id]);
 
 
@@ -104,7 +96,7 @@ const SelectCharacter = (props) => {
 
                                 </div>
                                 {dataComics ? dataComics.slice(-1).map(info => (
-                                    <p>Ultimo quadrinho: {info.modified.substring(0, 10).replaceAll('-', '/')}</p>
+                                    <p key={info.name}>Ultimo quadrinho: {info.modified.substring(0, 10).replaceAll('-', '/')}</p>
                                 )) : null}
                             </div>
                             <div>
@@ -119,8 +111,7 @@ const SelectCharacter = (props) => {
                         {dataComics.length == 0 ? <Loading search={"Search Comics..."} img={"/ic_quadrinhos.svg"} /> : null}
                         <div className={styles.lancamentos}>
                             {dataComics ? dataComics.map(info => (
-                                <>
-                                    <div>
+                                    <div key={info.id}>
                                         <img
                                             src={`${info.thumbnail.path}.${info.thumbnail.extension}`}
                                             alt={name}
@@ -128,12 +119,11 @@ const SelectCharacter = (props) => {
                                         </img>
                                         <h5>{info.title}</h5>
                                     </div>
-                                </>
                             )) : null}
                         </div>
                     </>
                 ) : (<CardHeros value={value} close={(e) => setValue("")} />)
-            }
+                }
             </div>
         </>
     )

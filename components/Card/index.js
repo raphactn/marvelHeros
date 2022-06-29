@@ -1,9 +1,8 @@
-import axios from "axios";
-import md5 from "md5";
 import styles from '../../styles/Home.module.css'
 import Link from "next/link";
 import Image from 'next/image'
 import Loading from "../Loading/index";
+import api from '../../pages/api/marvel';
 import { useEffect, useState } from "react";
 
 const CardHeros = ({ value, close }) => {
@@ -11,18 +10,13 @@ const CardHeros = ({ value, close }) => {
     const [order, setOrder] = useState(false)
     const [limit, setLimit] = useState(20)
     const [page, setPage] = useState(1)
-    const privateKey = 'a8165f58f2cdedf84d7537af8ba063dd057e7808'
-    const publicKey = 'd6caa04a415e01e2641df1a2d5079872'
-    const time = Number(new Date());
-    const hash = md5(time + privateKey + publicKey)
+ 
 
     useEffect(() => {
-        setTimeout(() => {
-            axios.get(`http://gateway.marvel.com/v1/public/characters?${value !== "" ? `nameStartsWith=${value}` : ""}&orderBy=${!order ? 'modified' : 'name'}&offset=${limit}&ts=${time}&apikey=${publicKey}&hash=${hash}`)
-                .then(response => setData(response.data.data.results))
-                .catch(err => console.log(err))
-        }, 500);
-    }, [order, value, limit]);
+        api.get(`/characters?${value !== "" ? `nameStartsWith=${value}` : ""}&orderBy=${!order ? 'modified' : 'name'}&offset=${limit}`)
+        .then(response => setData(response.data.data.results))
+        .catch(err => console.log(err))
+    }, [order, value, limit])
 
     return (
         <>
@@ -53,9 +47,8 @@ const CardHeros = ({ value, close }) => {
             </div>
             {data.length == 0 ? <Loading search={value !== "" ? 'Nenhum resultado encontrado' : 'Search Heros...'} img={'/ic_heroi.svg'} /> : null}
             <div className={styles.section}>
-                {data.map(info =>
-                    <>
-                        <div className={styles.card} key={info.id}>
+                {data.map(info => 
+                        <div className={styles.card} key={info.name}>
                             <Link
                                 href={{
                                     pathname: "/characters",
@@ -88,7 +81,6 @@ const CardHeros = ({ value, close }) => {
                                 </div>
                             </div>
                         </div>
-                    </>
                 )}
             </div>
             <div className={styles.next}>

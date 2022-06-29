@@ -28,7 +28,7 @@
 }
 
 .pageHero {
-  padding: 0 20rem 0 20rem;
+  padding: 0 15rem 0 15rem;
   min-height: 100vh;
 }
 
@@ -121,7 +121,7 @@
   display: flex;
   flex-direction: row;
   gap: 2rem;
-  padding: 0 30rem;
+  padding: 0 15rem;
 }
 
 .search input {
@@ -164,7 +164,7 @@
 .card img {
   border-bottom: 8px solid red;
   width: 100%;
-  height: 250px;
+  height: 280px;
   border-radius: 5px;
 }
 
@@ -172,13 +172,13 @@
   min-height: 30vh;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-column-gap: 5px;
+  grid-column-gap: 15px;
   grid-row-gap: 5px;
   margin-top: 1rem;
 }
 
 .homePage {
-  padding: 0 20rem 0 20rem;
+  padding: 0 15rem 0 15rem;
 }
 
 .next {
@@ -293,6 +293,10 @@
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 3rem;
+  }
+
+  .card img {
+    height: 250px;
   }
 
   .pageHero,
