@@ -27,7 +27,6 @@ const SelectCharacter = (props) => {
         }, 1000)
     }, [id]);
 
-    console.log(dataComics)
     return (
         <>
             <div className={styles.pageHero}>
