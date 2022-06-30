@@ -246,12 +246,7 @@
 
 .lancamentos img {
   width: 100%;
-}
-
-.lancamentos img:hover {
-  transform: scale(1.1);
-  filter: brightness(110%);
-  transition: all 300ms ease-in-out;
+  height: 300px;
 }
 
 .topDetails {
@@ -274,6 +269,60 @@
   cursor: pointer;
   padding: 10px;
   border-radius: 5px;
+}
+
+/* container com a perspectiva */
+.flipContainer {
+  perspective: 1000;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.backContent::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* feito com o hover */
+.flipContainer:hover .flipper,
+.flipContainer.hover .flipper {
+  transform: rotateY(180deg);
+}
+
+/* velocidade da animação */
+.flipper {
+  transition: 0.9s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.backContent {
+  overflow: auto;
+  height: 300px;
+}
+
+/* esconder parte de trás do painel durante a troca */
+.front,
+.back {
+  backface-visibility: hidden;
+}
+
+/* coloca o painel frontal acima */
+.front {
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+/* painel de volta, inicialmente escondido */
+.back {
+  position: absolute;
+  top: 0;
+  transform: rotateY(180deg);
+}
+
+.back p {
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: 600;
+  text-overflow: ellipsis;
 }
 
 

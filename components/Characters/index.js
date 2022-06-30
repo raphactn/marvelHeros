@@ -22,12 +22,12 @@ const SelectCharacter = (props) => {
     useEffect(() => {
         setTimeout(() => {
             api.get(`/characters/${id}/comics?orderBy=onsaleDate&limit=10`)
-            .then(response => setDataComics(response.data.data.results))
-            .catch(err => console.log(err))
-        },1000)
+                .then(response => setDataComics(response.data.data.results))
+                .catch(err => console.log(err))
+        }, 1000)
     }, [id]);
 
-
+    console.log(dataComics)
     return (
         <>
             <div className={styles.pageHero}>
@@ -111,14 +111,25 @@ const SelectCharacter = (props) => {
                         {dataComics.length == 0 ? <Loading search={"Search Comics..."} img={"/ic_quadrinhos.svg"} /> : null}
                         <div className={styles.lancamentos}>
                             {dataComics ? dataComics.map(info => (
-                                    <div key={info.id}>
-                                        <img
-                                            src={`${info.thumbnail.path}.${info.thumbnail.extension}`}
-                                            alt={name}
-                                        >
-                                        </img>
-                                        <h5>{info.title}</h5>
+                                <div>
+                                    <div className={styles.flipContainer}>
+                                        <div className={styles.flipper}>
+                                            <div className={styles.front}>
+                                                <img
+                                                    src={`${info.thumbnail.path}.${info.thumbnail.extension}`}
+                                                    alt={name}
+                                                >
+                                                </img>
+                                            </div>
+                                            <div className={styles.back}>
+                                                <div className={styles.backContent}>
+                                                    <p>{info.description ? info.description : 'Descrição do quadrinho não disponivel'}</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <h5>{info.title}</h5>
+                                </div>
                             )) : null}
                         </div>
                     </>
