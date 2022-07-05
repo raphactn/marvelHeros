@@ -5,7 +5,7 @@ import Loading from "../Loading/index";
 import api from '../../pages/api/marvel';
 import { useEffect, useState } from "react";
 
-const CardHeros = ({ value, close, characterId }) => {
+const CardHeros = ({ value, close }) => {
     const [data, setData] = useState([])
     const [order, setOrder] = useState(false)
     const [list, setList] = useState([])
@@ -23,29 +23,26 @@ const CardHeros = ({ value, close, characterId }) => {
             .catch(err => console.log(err))
     }, [order, value, limit, atualiza])
 
-    const handleVerific = () => {
-        console.log(favorite)
-        if (favorite.length > 4) {
-            favorite.length = 4;
-            list.length = 4;
+
+    const handleGetFavorite = (item) => {
+        if (favorite.length == 0) {
+            favorite.push(item)
+        } else {
+            favorite.map(info => {
+                if (info.id == item.id) {
+                    console.log('igual')
+                    favorite.pop(info.id)
+                } else {
+                    console.log('não igual')
+                    favorite.push(item)
+                }
+            })
         }
-    }
-
-    function checkObject(item) {
-        return typeof obj === favorite.id && obj !== null;
-    }
-
-    function handleGetFavorite(item) {
-          handleVerific()
-          favorite.push(item)
-          list.push(item.id)
-          setState(!state)
-         console.log(favorite)  
+        console.log(favorite)
     }
 
     const handleFavorite = () => {
-        if(favorite.length === 0){
-            alert('Nenhum Heroi favoritado')
+        if (favorite.length === 0) {
             return
         }
         setListFavorite(!listFavorite)
@@ -55,9 +52,9 @@ const CardHeros = ({ value, close, characterId }) => {
             return !duplicatedPerson;
         });
         setListFavorite(!listFavorite)
-        if(listFavorite){
+        if (listFavorite) {
             setData(filterPerson)
-        }else{
+        } else {
             setAtualiza(!atualiza)
         }
     }
@@ -119,7 +116,7 @@ const CardHeros = ({ value, close, characterId }) => {
                             </div>
                             <div>
                                 <Image
-                                    src={list.includes(info.id) ? '/favorito_03.svg': '/favorito_02.svg'}
+                                    src={list.includes(info.id) ? '/favorito_03.svg' : '/favorito_02.svg'}
                                     width={20}
                                     height={20}
                                     onClick={(e) => handleGetFavorite({
