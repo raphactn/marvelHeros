@@ -26,7 +26,7 @@ const SelectCharacter = (props) => {
                 .catch(err => console.log(err))
         }, 1000)
     }, [id]);
-
+    
     return (
         <>
             <div className={styles.pageHero}>
@@ -42,7 +42,7 @@ const SelectCharacter = (props) => {
                     <>
                         <div className={styles.infoHero}>
                             <div>
-                                <h1>{name}</h1>
+                                    <h1>{name}</h1>
                                 <p>{description !== "" ? description : "Descrição não disponivel"}</p>
                                 <div className={styles.itensHero}>
                                     <h4>Quadrinhos</h4>
@@ -132,7 +132,7 @@ const SelectCharacter = (props) => {
                             )) : null}
                         </div>
                     </>
-                ) : (<CardHeros value={value} close={(e) => setValue("")} />)
+                ) : (<CardHeros value={value} close={(e) => setValue("")} characterId={favorite} />)
                 }
             </div>
         </>

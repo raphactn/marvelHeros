@@ -5,18 +5,62 @@ import Loading from "../Loading/index";
 import api from '../../pages/api/marvel';
 import { useEffect, useState } from "react";
 
-const CardHeros = ({ value, close }) => {
+const CardHeros = ({ value, close, characterId }) => {
     const [data, setData] = useState([])
     const [order, setOrder] = useState(false)
+    const [list, setList] = useState([])
+    const [favorite, setFavorite] = useState([])
+    const [state, setState] = useState(false)
+    const [atualiza, setAtualiza] = useState(false)
+    const [listFavorite, setListFavorite] = useState(!false)
     const [limit, setLimit] = useState(20)
     const [page, setPage] = useState(1)
- 
+    const favoriteList = new Set();
 
     useEffect(() => {
-        api.get(`/characters?${value !== "" ? `nameStartsWith=${value}` : ""}&orderBy=${!order ? 'modified' : 'name'}&offset=${limit}`)
-        .then(response => setData(response.data.data.results))
-        .catch(err => console.log(err))
-    }, [order, value, limit])
+        api.get(`/characters?${value !== "" ? `nameStartsWith=${value}` : ""}&orderBy=${!order ? '-name' : 'name'}&offset=${limit}`)
+            .then(response => setData(response.data.data.results))
+            .catch(err => console.log(err))
+    }, [order, value, limit, atualiza])
+
+    const handleVerific = () => {
+        console.log(favorite)
+        if (favorite.length > 4) {
+            favorite.length = 4;
+            list.length = 4;
+        }
+    }
+
+    function checkObject(item) {
+        return typeof obj === favorite.id && obj !== null;
+    }
+
+    function handleGetFavorite(item) {
+          handleVerific()
+          favorite.push(item)
+          list.push(item.id)
+          setState(!state)
+         console.log(favorite)  
+    }
+
+    const handleFavorite = () => {
+        if(favorite.length === 0){
+            alert('Nenhum Heroi favoritado')
+            return
+        }
+        setListFavorite(!listFavorite)
+        const filterPerson = favorite.filter((person) => {
+            const duplicatedPerson = favoriteList.has(person.id);
+            favoriteList.add(person.id);
+            return !duplicatedPerson;
+        });
+        setListFavorite(!listFavorite)
+        if(listFavorite){
+            setData(filterPerson)
+        }else{
+            setAtualiza(!atualiza)
+        }
+    }
 
     return (
         <>
@@ -38,49 +82,60 @@ const CardHeros = ({ value, close }) => {
                 </div>
                 <div className={styles.order}>
                     <Image
-                        src={'/favorito_03.svg'}
+                        src={listFavorite ? '/favorito_02.svg' : '/favorito_03.svg'}
                         width={15}
                         height={15}
+                        onClick={handleFavorite}
                     />
                     <p>Somento Favoritos</p>
                 </div>
             </div>
             {data.length == 0 ? <Loading search={value !== "" ? 'Nenhum resultado encontrado' : 'Search Heros...'} img={'/ic_heroi.svg'} /> : null}
             <div className={styles.section}>
-                {data.map(info => 
-                        <div className={styles.card} key={info.name}>
-                            <Link
-                                href={{
-                                    pathname: "/characters",
-                                    query: {
+                {data.map(info =>
+                    <div className={styles.card} key={info.name}>
+                        <Link
+                            href={{
+                                pathname: "/characters",
+                                query: {
+                                    id: info.id,
+                                    name: info.name,
+                                    description: info.description,
+                                    img: `${info.thumbnail.path}.${info.thumbnail.extension}`,
+                                    comics: info.comics.available,
+                                    movies: info.events.available
+                                }
+                            }}
+                        >
+                            <img src={`${info.thumbnail.path}.${info.thumbnail.extension}`}
+                                className={styles.thumb}
+                                onClick={close}
+                                alt={info.name}
+                            ></img>
+                        </Link>
+                        <div className={styles.details}>
+                            <div>
+                                <h5 key={info.id}>{info.name}</h5>
+                            </div>
+                            <div>
+                                <Image
+                                    src={list.includes(info.id) ? '/favorito_03.svg': '/favorito_02.svg'}
+                                    width={20}
+                                    height={20}
+                                    onClick={(e) => handleGetFavorite({
                                         id: info.id,
                                         name: info.name,
-                                        description: info.description,
-                                        img: `${info.thumbnail.path}.${info.thumbnail.extension}`,
+                                        thumbnail: {
+                                            path: info.thumbnail.path,
+                                            extension: info.thumbnail.extension
+                                        },
                                         comics: info.comics.available,
-                                        movies: info.events.available
-                                    }
-                                }}
-                            >
-                                <img src={`${info.thumbnail.path}.${info.thumbnail.extension}`}
-                                    className={styles.thumb}
-                                    onClick={close}
-                                    alt={info.name}
-                                ></img>
-                            </Link>
-                            <div className={styles.details}>
-                                <div>
-                                    <h5 key={info.id}>{info.name}</h5>
-                                </div>
-                                <div>
-                                    <Image
-                                        src={'/favorito_02.svg'}
-                                        width={20}
-                                        height={20}
-                                    />
-                                </div>
+                                        events: info.events.available
+                                    })}
+                                />
                             </div>
                         </div>
+                    </div>
                 )}
             </div>
             <div className={styles.next}>
