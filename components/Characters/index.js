@@ -92,7 +92,6 @@ const SelectCharacter = (props) => {
                                         width={20}
                                         height={20}
                                     />
-
                                 </div>
                                 {dataComics ? dataComics.slice(-1).map(info => (
                                     <p key={info.name}>Ultimo quadrinho: {info.modified.substring(0, 10).replaceAll('-', '/')}</p>
@@ -132,7 +131,7 @@ const SelectCharacter = (props) => {
                             )) : null}
                         </div>
                     </>
-                ) : (<CardHeros value={value} close={(e) => setValue("")} characterId={favorite} />)
+                ) : (<CardHeros value={value} close={(e) => setValue("")} />)
                 }
             </div>
         </>

@@ -162,14 +162,6 @@
   font-size: larger;
 }
 
-.details {
-  display: flex;
-  flex-direction: row;
-  place-items: center;
-  justify-content: space-between;
-  width: 80%;
-}
-
 .card img {
   border-bottom: 8px solid red;
   width: 100%;
@@ -261,11 +253,10 @@
 .topDetails {
   display: flex;
   flex-direction: row;
-  place-items: center;
   justify-content: space-between;
   color: rgb(119, 119, 119);
   margin-top: 5rem;
-  width: 95%;
+  width: 100%;
 }
 
 .returnTop {

@@ -9,55 +9,15 @@ const CardHeros = ({ value, close }) => {
     const [data, setData] = useState([])
     const [order, setOrder] = useState(false)
     const [list, setList] = useState([])
-    const [favorite, setFavorite] = useState([])
-    const [state, setState] = useState(false)
-    const [atualiza, setAtualiza] = useState(false)
-    const [listFavorite, setListFavorite] = useState(!false)
     const [limit, setLimit] = useState(20)
     const [page, setPage] = useState(1)
-    const favoriteList = new Set();
 
     useEffect(() => {
         api.get(`/characters?${value !== "" ? `nameStartsWith=${value}` : ""}&orderBy=${!order ? '-name' : 'name'}&offset=${limit}`)
             .then(response => setData(response.data.data.results))
             .catch(err => console.log(err))
-    }, [order, value, limit, atualiza])
+    }, [order, value, limit])
 
-
-    const handleGetFavorite = (item) => {
-        if (favorite.length == 0) {
-            favorite.push(item)
-        } else {
-            favorite.map(info => {
-                if (info.id == item.id) {
-                    console.log('igual')
-                    favorite.pop(info.id)
-                } else {
-                    console.log('não igual')
-                    favorite.push(item)
-                }
-            })
-        }
-        console.log(favorite)
-    }
-
-    const handleFavorite = () => {
-        if (favorite.length === 0) {
-            return
-        }
-        setListFavorite(!listFavorite)
-        const filterPerson = favorite.filter((person) => {
-            const duplicatedPerson = favoriteList.has(person.id);
-            favoriteList.add(person.id);
-            return !duplicatedPerson;
-        });
-        setListFavorite(!listFavorite)
-        if (listFavorite) {
-            setData(filterPerson)
-        } else {
-            setAtualiza(!atualiza)
-        }
-    }
 
     return (
         <>
@@ -76,15 +36,6 @@ const CardHeros = ({ value, close }) => {
                         height={50}
                         onClick={(e) => setOrder(!order)}
                     />
-                </div>
-                <div className={styles.order}>
-                    <Image
-                        src={listFavorite ? '/favorito_02.svg' : '/favorito_03.svg'}
-                        width={15}
-                        height={15}
-                        onClick={handleFavorite}
-                    />
-                    <p>Somento Favoritos</p>
                 </div>
             </div>
             {data.length == 0 ? <Loading search={value !== "" ? 'Nenhum resultado encontrado' : 'Search Heros...'} img={'/ic_heroi.svg'} /> : null}
@@ -110,28 +61,9 @@ const CardHeros = ({ value, close }) => {
                                 alt={info.name}
                             ></img>
                         </Link>
-                        <div className={styles.details}>
                             <div>
                                 <h5 key={info.id}>{info.name}</h5>
                             </div>
-                            <div>
-                                <Image
-                                    src={list.includes(info.id) ? '/favorito_03.svg' : '/favorito_02.svg'}
-                                    width={20}
-                                    height={20}
-                                    onClick={(e) => handleGetFavorite({
-                                        id: info.id,
-                                        name: info.name,
-                                        thumbnail: {
-                                            path: info.thumbnail.path,
-                                            extension: info.thumbnail.extension
-                                        },
-                                        comics: info.comics.available,
-                                        events: info.events.available
-                                    })}
-                                />
-                            </div>
-                        </div>
                     </div>
                 )}
             </div>
