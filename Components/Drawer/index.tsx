@@ -38,6 +38,8 @@ export const CharacterDrawer = (props: DrawerProps) => {
   });
 
   useEffect(() => {
+    if(!isOpen)
+    return
     setLoading(true);
     const fatchComics = async () => {
       try {
