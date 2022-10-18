@@ -22,6 +22,7 @@ import api from "./api/marvel";
 import { Card } from "../Components/Card";
 import Router from "next/router";
 import { CharacterDrawer } from "../Components/Drawer";
+import Head from "next/head";
 
 export default function Home({ data }: any) {
   const [page, setPage] = useState(1);
@@ -73,6 +74,14 @@ export default function Home({ data }: any) {
 
   return (
     <>
+      <Head>
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <title>Marvel - Search Heros</title>
+      </Head>
       <Center p={3} bg={"blackAlpha.900"}>
         <span
           className="icon--svg icon--svg mvl-animated-logo"
