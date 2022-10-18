@@ -38,8 +38,9 @@ export const CharacterDrawer = (props: DrawerProps) => {
   });
 
   useEffect(() => {
-    if(!isOpen)
-    return
+    if (!isOpen) {
+      return;
+    }
     setLoading(true);
     const fatchComics = async () => {
       try {
@@ -57,6 +58,7 @@ export const CharacterDrawer = (props: DrawerProps) => {
           status: "error",
           position: "top-right",
         });
+        setLoading(false);
       }
     };
     fatchComics();
@@ -142,7 +144,9 @@ export const CharacterDrawer = (props: DrawerProps) => {
               ))}
             </SimpleGrid>
           ) : (
-            <Center mt={5} color='red.500'>Nenhum Quadrinho Econtrado</Center>
+            <Center mt={5} color="red.500">
+              Nenhum Quadrinho Econtrado :(
+            </Center>
           )}
         </DrawerBody>
       </DrawerContent>

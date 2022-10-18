@@ -33,9 +33,20 @@ export default function Home({ data }: any) {
 
   useEffect(() => {
     if (search.length > 0) {
-      Router.push(`?limit=${limit}&offset=${offset}&nameStartsWith=${search}`);
+      Router.push({
+        query: {
+          limit: limit,
+          offset: offset,
+          nameStartsWith: search,
+        },
+      });
     } else {
-      Router.push(`?limit=${limit}&offset=${offset}`);
+      Router.push({
+        query: {
+          limit: limit,
+          offset: offset,
+        },
+      });
     }
   }, [limit, offset, search]);
 
@@ -62,7 +73,7 @@ export default function Home({ data }: any) {
 
   return (
     <>
-      <Center p={3} bg={'blackAlpha.900'}>
+      <Center p={3} bg={"blackAlpha.900"}>
         <span
           className="icon--svg icon--svg mvl-animated-logo"
           aria-hidden="true"
