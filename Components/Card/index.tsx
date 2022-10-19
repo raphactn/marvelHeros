@@ -11,7 +11,6 @@ export const Card = ({ characters, setCharacter }: CardProps) => {
       <Image
         src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
         w="100%"
-        h="300px"
         rounded={"md"}
         boxShadow='rgba(0, 0, 0, 0.16) 0px 1px 4px'
         borderBottom={"10px solid"}
@@ -20,7 +19,6 @@ export const Card = ({ characters, setCharacter }: CardProps) => {
       />
       <Flex mt={2} justifyContent={"space-between"} ml={1} mr={1}>
         <Text>{character.name}</Text>
-        <Image src="/favorito_02.svg" />
       </Flex>
     </Box>
   ));

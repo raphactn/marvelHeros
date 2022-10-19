@@ -30,6 +30,7 @@ export default function Home({ data }: any) {
   const [search, setSearch] = useState("");
   const [limit, setLimit] = useState<number | string>(20);
   const [character, setCharacter] = useState<any>([]);
+  const [orderBy, setOrderBy] = useState("name");
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -38,6 +39,7 @@ export default function Home({ data }: any) {
         query: {
           limit: limit,
           offset: offset,
+          orderBy: orderBy,
           nameStartsWith: search,
         },
       });
@@ -46,10 +48,11 @@ export default function Home({ data }: any) {
         query: {
           limit: limit,
           offset: offset,
+          orderBy: orderBy,
         },
       });
     }
-  }, [limit, offset, search]);
+  }, [limit, offset, search, orderBy]);
 
   const handleNextPage = () => {
     setPage(page + 1);
@@ -101,7 +104,7 @@ export default function Home({ data }: any) {
           </svg>
         </span>
       </Center>
-      <Box p={10}>
+      <Box p={{ base: 2, md: 5 }}>
         <CharacterDrawer open={open} setOpen={setOpen} character={character} />
         <Center flexDirection={"column"}>
           <Text fontSize={"2xl"} fontWeight="bold">
@@ -124,7 +127,7 @@ export default function Home({ data }: any) {
             />
           </InputGroup>
         </Center>
-        <Flex mt={10} justifyContent="space-between" ml={5} mr={10}>
+        <Flex mt={10} justifyContent="space-between">
           <Box>
             <Text>Encontrados {data.count} Heróis</Text>
           </Box>
@@ -132,14 +135,27 @@ export default function Home({ data }: any) {
             <Center color="red.500" gap={2}>
               <Image src="ic_heroi.svg" />
               <Text>Ordenar por nome A/Z</Text>
-              <Image cursor="pointer" src="toggle_off.svg" w="50px" />
+              <IconButton
+                colorScheme="none"
+                onClick={() =>
+                  setOrderBy(orderBy === "name" ? "-name" : "name")
+                }
+                aria-label=""
+                icon={
+                  orderBy === "name" ? (
+                    <Image cursor="pointer" src="toggle_on.svg" w="50px" />
+                  ) : (
+                    <Image cursor="pointer" src="toggle_off.svg" w="50px" />
+                  )
+                }
+              />
             </Center>
           </Box>
         </Flex>
         <SimpleGrid
           columns={{ base: 2, md: 3, lg: 4, xl: 5 }}
           spacing={5}
-          mt={5}
+          mt={2}
         >
           <Card
             characters={data.results}
@@ -186,11 +202,14 @@ export default function Home({ data }: any) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const limit = context.query.limit;
   const offset = context.query.offset;
+  const orderBy = context.query.orderBy;
+
   const nameStartsWith = context.query.nameStartsWith;
   const { data } = await api.get(`/characters`, {
     params: {
       limit,
       offset,
+      orderBy,
       nameStartsWith,
     },
   });

@@ -130,7 +130,7 @@ export const CharacterDrawer = (props: DrawerProps) => {
               />
             </Center>
           ) : comics.length > 0 ? (
-            <SimpleGrid columns={5} spacing={5} mt={5}>
+            <SimpleGrid columns={{base:2, md: 4, lg: 5}} spacing={5} mt={5}>
               {comics.map((comic: any) => (
                 <Box>
                   <Image
